@@ -10,9 +10,6 @@ import android.app.Application;
  */
 public abstract class BaseApplication extends Application {
 
-    //各个模块的初始化方法
-    public abstract void init();
-
     //修改顶部栏颜色
     public abstract void setStatusBarColor(int color);
 
