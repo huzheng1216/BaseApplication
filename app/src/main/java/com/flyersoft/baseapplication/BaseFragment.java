@@ -1,7 +1,9 @@
 package com.flyersoft.baseapplication;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -33,7 +35,7 @@ public abstract class BaseFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        if (contentView != null && contentView.getParent()!=null)
+        if (contentView != null && contentView.getParent() != null)
             ((ViewGroup) contentView.getParent()).removeView(contentView);
         super.onDestroyView();
     }
@@ -41,31 +43,31 @@ public abstract class BaseFragment extends Fragment {
     /**
      * @author huzheng
      * @date 2019-09-24
-     * @description
-     * 控制actionbar是否显示。因为主界面使用的AppCompatActivity，这直接强制转换了。
+     * @description 控制actionbar是否显示。因为主界面使用的AppCompatActivity，这直接强制转换了。
      */
-    protected void setActionBarVisible(boolean show){
+    protected void setActionBarVisible(boolean show) {
         this.showActionBar = show;
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        ActionBar supportActionBar = activity.getSupportActionBar();
-        if(showActionBar){
-            supportActionBar.show();
-        }else {
-            supportActionBar.hide();
+        FragmentActivity fragmentActivity = getActivity();
+        if (fragmentActivity instanceof AppCompatActivity) {
+            AppCompatActivity activity = (AppCompatActivity) fragmentActivity;
+            ActionBar supportActionBar = activity.getSupportActionBar();
+            if (showActionBar && supportActionBar != null) {
+                supportActionBar.show();
+            } else {
+                supportActionBar.hide();
+            }
         }
     }
 
     /**
      * @author huzheng
      * @date 2019-09-24
-     * @description
-     * 重新回到该fragment时，修改action bar状态
-     *
+     * @description 重新回到该fragment时，修改action bar状态
      */
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser){
+        if (isVisibleToUser) {
             setActionBarVisible(showActionBar);
         }
     }
